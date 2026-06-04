@@ -66,8 +66,6 @@ class DetectorBridge {
   Future<DetectorStatus> startLiveSession() => _invoke('startLiveSession');
   Future<DetectorStatus> stopLiveSession() => _invoke('stopLiveSession');
   Future<DetectorStatus> lockTarget() => _invoke('lockTarget');
-  Future<DetectorStatus> runCalibration() => _invoke('runCalibration');
-  Future<DetectorStatus> servoTest() => _invoke('servoTest');
   Future<DetectorStatus> getDetectorStatus() => _invoke('getDetectorStatus');
 
   Future<DetectorStatus> _invoke(String method) async {

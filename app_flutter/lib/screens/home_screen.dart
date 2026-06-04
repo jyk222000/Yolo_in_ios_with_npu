@@ -10,7 +10,6 @@ class HomeScreen extends StatelessWidget {
   const HomeScreen({
     super.key,
     required this.onStartTracking,
-    required this.onOpenDevices,
     required this.onOpenRecords,
     required this.onOpenCamera,
     required this.trackingBusy,
@@ -18,7 +17,6 @@ class HomeScreen extends StatelessWidget {
   });
 
   final VoidCallback onStartTracking;
-  final VoidCallback onOpenDevices;
   final VoidCallback onOpenRecords;
   final VoidCallback onOpenCamera;
   final bool trackingBusy;
@@ -56,15 +54,8 @@ class HomeScreen extends StatelessWidget {
             const SizedBox(height: 24),
             const _ReadinessPanel(),
             const SizedBox(height: 28),
-            const SectionHeader(title: 'Management'),
+            const SectionHeader(title: 'Quick Access'),
             const SizedBox(height: 14),
-            _ManagementRow(
-              title: 'Device Status',
-              subtitle: 'Calibrate motors & sensors',
-              icon: Icons.memory_rounded,
-              onTap: onOpenDevices,
-            ),
-            const SizedBox(height: 12),
             _ManagementRow(
               title: 'Recent Records',
               subtitle: 'Review past tracking sessions',
@@ -104,7 +95,7 @@ class _HeroPanel extends StatelessWidget {
           children: [
             Positioned.fill(
               child: Image.asset(
-                'assets/images/session_01.jpg',
+                'assets/images/soccer_hero.png',
                 fit: BoxFit.cover,
               ),
             ),
@@ -137,14 +128,14 @@ class _HeroPanel extends StatelessWidget {
                   ),
                   const SizedBox(height: 18),
                   Text(
-                    'Track your player\nautomatically',
+                    'Track the match\nautomatically',
                     style: Theme.of(context).textTheme.displaySmall?.copyWith(
                           fontSize: 30,
                         ),
                   ),
                   const SizedBox(height: 12),
                   Text(
-                    'Real-time AI servo control for stable training footage.',
+                    'Open the camera and frame live soccer action instantly.',
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                           color: AppColors.muted,
                         ),
@@ -187,50 +178,11 @@ class _HeroPanel extends StatelessWidget {
   }
 }
 
-class _ReadinessPanel extends StatefulWidget {
+class _ReadinessPanel extends StatelessWidget {
   const _ReadinessPanel();
 
   @override
-  State<_ReadinessPanel> createState() => _ReadinessPanelState();
-}
-
-class _ReadinessPanelState extends State<_ReadinessPanel> {
-  final _bridge = const DetectorBridge();
-  DetectorStatus _detectorStatus = DetectorStatus.unavailable();
-
-  @override
-  void initState() {
-    super.initState();
-    _loadDetectorStatus();
-  }
-
-  Future<void> _loadDetectorStatus() async {
-    final status = await _bridge.getDetectorStatus();
-    if (mounted) {
-      setState(() => _detectorStatus = status);
-    }
-  }
-
-  String get _modelStatus {
-    if (!_detectorStatus.nativeAvailable) return 'Native Off';
-    if (!_detectorStatus.modelPresent) return 'Missing';
-    return 'Ready';
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final items = [
-      readinessItems[0],
-      readinessItems[1],
-      readinessItems[2],
-      ReadinessItem(
-        title: readinessItems[3].title,
-        status: _modelStatus,
-        icon: readinessItems[3].icon,
-        wide: readinessItems[3].wide,
-      ),
-    ];
-
     return AppSurface(
       padding: const EdgeInsets.all(18),
       child: Column(
@@ -260,19 +212,7 @@ class _ReadinessPanelState extends State<_ReadinessPanel> {
             ],
           ),
           const SizedBox(height: 16),
-          for (var i = 0; i < items.length; i++) ...[
-            if (items[i].wide)
-              _ReadinessTile(item: items[i])
-            else if (i == 1)
-              Row(
-                children: [
-                  Expanded(child: _ReadinessTile(item: items[i])),
-                  const SizedBox(width: 12),
-                  Expanded(child: _ReadinessTile(item: items[i + 1])),
-                ],
-              ),
-            if (i == 0 || i == 2) const SizedBox(height: 12),
-          ],
+          _ReadinessTile(item: readinessItems[0]),
         ],
       ),
     );

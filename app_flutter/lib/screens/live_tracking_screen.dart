@@ -310,7 +310,7 @@ class _SessionControls extends StatelessWidget {
                 const Expanded(
                   child: _InlineStatus(
                     icon: Icons.check_circle_outline_rounded,
-                    label: 'Arduino Connected',
+                    label: 'Camera Connected',
                   ),
                 ),
                 const SizedBox(width: 12),

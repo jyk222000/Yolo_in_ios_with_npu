@@ -14,11 +14,10 @@ class AppBottomNav extends StatelessWidget {
 
   static const _items = [
     _NavItemData('Home', Icons.home_outlined, Icons.home_rounded),
-    _NavItemData('Devices', Icons.memory_outlined, Icons.memory_rounded),
-    _NavItemData(
-        'Records', Icons.video_library_outlined, Icons.video_library_rounded),
     _NavItemData(
         'Camera', Icons.photo_camera_outlined, Icons.photo_camera_rounded),
+    _NavItemData(
+        'Records', Icons.video_library_outlined, Icons.video_library_rounded),
   ];
 
   @override

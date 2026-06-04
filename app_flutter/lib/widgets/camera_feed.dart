@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
 
 class CameraFeed extends StatefulWidget {
-  const CameraFeed({super.key});
+  const CameraFeed({super.key, this.onControllerReady});
+
+  final ValueChanged<CameraController?>? onControllerReady;
 
   @override
   State<CameraFeed> createState() => _CameraFeedState();
@@ -22,6 +24,7 @@ class _CameraFeedState extends State<CameraFeed> {
 
   @override
   void dispose() {
+    widget.onControllerReady?.call(null);
     _controller?.dispose();
     super.dispose();
   }
@@ -51,6 +54,7 @@ class _CameraFeedState extends State<CameraFeed> {
       }
 
       setState(() => _controller = controller);
+      widget.onControllerReady?.call(controller);
     } catch (error) {
       if (mounted) {
         setState(() => _error = 'Camera permission needed');
